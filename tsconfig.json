@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "module": "nodenext",
+        "newLine": "lf",
+        "rootDir": ".",
+        "skipLibCheck": false,
+        "strict": true
+    },
+    "include": ["lib", "test"]
+}
