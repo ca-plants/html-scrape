@@ -9,6 +9,9 @@
     },
     "homepage": "https://github.com/ca-plants/html-scrape",
     "type": "module",
+    "files": [
+        "lib"
+    ],
     "exports": {
         ".": "./lib/index.js"
     },
