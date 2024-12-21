@@ -2,7 +2,7 @@ export type Root = import("hast").Root;
 export type Element = import("hast").Element;
 export type Text = import("hast").Text;
 
-export class htmlScrape {
+export class scrape {
     static getAttr(element: Element, attName: string): string | undefined;
     static getSubtree(
         ast: Root | Element,

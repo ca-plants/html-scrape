@@ -1,16 +1,13 @@
-import { htmlScrape } from "../lib/html-scrape.js";
+import { scrape } from "../lib/html-scrape.js";
 
 it("parse", () => {
-    const ast = htmlScrape.parseString("<html></html>");
+    const ast = scrape.parseString("<html></html>");
     expect(ast.type).toBe("root");
 });
 
 it("getSubtree", () => {
-    const ast = htmlScrape.parseString('<html><div id="x"></div></html>');
-    const tree = htmlScrape.getSubtree(
-        ast,
-        (e) => htmlScrape.getAttr(e, "id") === "x",
-    );
+    const ast = scrape.parseString('<html><div id="x"></div></html>');
+    const tree = scrape.getSubtree(ast, (e) => scrape.getAttr(e, "id") === "x");
     if (!tree) {
         throw new Error();
     }
@@ -18,54 +15,45 @@ it("getSubtree", () => {
 });
 
 it("getSubtree undefined", () => {
-    const ast = htmlScrape.parseString('<html><div id="x"></div></html>');
-    const tree = htmlScrape.getSubtree(
-        ast,
-        (e) => htmlScrape.getAttr(e, "id") === "y",
-    );
+    const ast = scrape.parseString('<html><div id="x"></div></html>');
+    const tree = scrape.getSubtree(ast, (e) => scrape.getAttr(e, "id") === "y");
     expect(tree).toBeUndefined();
 });
 
 it("getSubtrees", () => {
-    const ast = htmlScrape.parseString(
+    const ast = scrape.parseString(
         '<html><div><p></p></div><div id="x"><p></p><p><div></div>/p></div></html>',
     );
-    const tree = htmlScrape.getSubtree(
-        ast,
-        (e) => htmlScrape.getAttr(e, "id") === "x",
-    );
+    const tree = scrape.getSubtree(ast, (e) => scrape.getAttr(e, "id") === "x");
     if (!tree) {
         throw new Error();
     }
-    const subtrees = htmlScrape.getSubtrees(tree, (e) => e.tagName === "p");
+    const subtrees = scrape.getSubtrees(tree, (e) => e.tagName === "p");
     expect(subtrees.length).toBe(2);
 });
 
 it("getTextContent", () => {
-    const ast = htmlScrape.parseString(
+    const ast = scrape.parseString(
         '<html><div id="y">abc <span>def</span></div></html>',
     );
-    const element = htmlScrape.getSubtree(
+    const element = scrape.getSubtree(
         ast,
-        (e) => htmlScrape.getAttr(e, "id") === "y",
+        (e) => scrape.getAttr(e, "id") === "y",
     );
     if (!element) {
         throw new Error();
     }
-    const text = htmlScrape.getTextContent(element);
+    const text = scrape.getTextContent(element);
     expect(text).toBe("abc def");
 });
 
 it("getAttr", () => {
-    const ast = htmlScrape.parseString(
+    const ast = scrape.parseString(
         '<html><div id="x" class="ab cd"><div></html>',
     );
-    const div = htmlScrape.getSubtree(
-        ast,
-        (e) => htmlScrape.getAttr(e, "id") === "x",
-    );
+    const div = scrape.getSubtree(ast, (e) => scrape.getAttr(e, "id") === "x");
     if (!div) {
         throw new Error();
     }
-    expect(htmlScrape.getAttr(div, "class")).toBe("ab cd");
+    expect(scrape.getAttr(div, "class")).toBe("ab cd");
 });

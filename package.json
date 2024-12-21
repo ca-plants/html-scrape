@@ -1,5 +1,5 @@
 {
-    "name": "htmlscrape",
+    "name": "@htmltools/scrape",
     "version": "0.1.0",
     "description": "Tools to parse and extract HTML content.",
     "license": "MIT",
@@ -14,7 +14,11 @@
     },
     "types": "./lib/index.d.ts",
     "scripts": {
-        "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+        "check": "npm run eslint && npm run jest && npm run prettier && npm run tsc",
+        "eslint": "npx eslint",
+        "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "prettier": "npx prettier -l .",
+        "tsc": "npx tsc"
     },
     "devDependencies": {
         "@types/jest": "^29.5.14",
