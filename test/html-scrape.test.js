@@ -55,3 +55,17 @@ it("getTextContent", () => {
     const text = htmlScrape.getTextContent(element);
     expect(text).toBe("abc def");
 });
+
+it("getAttr", () => {
+    const ast = htmlScrape.parseString(
+        '<html><div id="x" class="ab cd"><div></html>',
+    );
+    const div = htmlScrape.getSubtree(
+        ast,
+        (e) => htmlScrape.getAttr(e, "id") === "x",
+    );
+    if (!div) {
+        throw new Error();
+    }
+    expect(htmlScrape.getAttr(div, "class")).toBe("ab cd");
+});
