@@ -1,9 +1,14 @@
+import { ElementContent } from "hast";
+
 export type Root = import("hast").Root;
 export type Element = import("hast").Element;
 export type Text = import("hast").Text;
 
 export class scrape {
-    static getAttr(element: Element, attName: string): string | undefined;
+    static getAttr(
+        element: ElementContent,
+        attName: string,
+    ): string | undefined;
     static getSubtree(
         ast: Root | Element,
         fnMatch: (element: Element) => boolean,
@@ -12,6 +17,6 @@ export class scrape {
         element: Root | Element,
         fnMatch: (element: Element) => boolean,
     ): Element[];
-    static getTextContent(node: Element | Text): string;
+    static getTextContent(node: ElementContent): string;
     static parseFile(filePath: string): Root;
 }

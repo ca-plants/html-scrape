@@ -1,6 +1,6 @@
 {
     "name": "@htmltools/scrape",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Tools to parse and extract HTML content.",
     "license": "MIT",
     "repository": {
