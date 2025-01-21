@@ -47,6 +47,21 @@ it("getTextContent", () => {
     expect(text).toBe("abc def");
 });
 
+it("getTextContent for comment", () => {
+    const ast = scrape.parseString(
+        '<html><div id="y"><!-- this is a test --></div></html>',
+    );
+    const element = scrape.getSubtree(
+        ast,
+        (e) => scrape.getAttr(e, "id") === "y",
+    );
+    if (!element) {
+        throw new Error();
+    }
+    const text = scrape.getTextContent(element);
+    expect(text).toBe("");
+});
+
 it("getAttr", () => {
     const ast = scrape.parseString(
         '<html><div id="x" class="ab cd"><div></html>',
@@ -56,4 +71,16 @@ it("getAttr", () => {
         throw new Error();
     }
     expect(scrape.getAttr(div, "class")).toBe("ab cd");
+});
+
+it("getAttr for comment", () => {
+    const ast = scrape.parseString(
+        '<html><div id="x" class="ab cd"><!-- this is a test --><div></html>',
+    );
+    const div = scrape.getSubtree(ast, (e) => scrape.getAttr(e, "id") === "x");
+    if (!div) {
+        throw new Error();
+    }
+    const child = div.children[0];
+    expect(scrape.getAttr(child, "class")).toBeUndefined();
 });
