@@ -47,6 +47,21 @@ it("getTextContent", () => {
     expect(text).toBe("abc def");
 });
 
+it("getTextContent - ignore style", () => {
+    const ast = scrape.parseString(
+        '<html><div id="y"><style>dd {fill:green}</style>abc <span>def</span></div></html>',
+    );
+    const element = scrape.getSubtree(
+        ast,
+        (e) => scrape.getAttr(e, "id") === "y",
+    );
+    if (!element) {
+        throw new Error();
+    }
+    const text = scrape.getTextContent(element);
+    expect(text).toBe("abc def");
+});
+
 it("getTextContent for comment", () => {
     const ast = scrape.parseString(
         '<html><div id="y"><!-- this is a test --></div></html>',
