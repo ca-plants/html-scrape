@@ -19,4 +19,5 @@ export class scrape {
     ): Element[];
     static getTextContent(node: ElementContent): string;
     static parseFile(filePath: string): Root;
+    static parseString(filePath: string): Root;
 }
