@@ -32,49 +32,37 @@ it("getSubtrees", () => {
     expect(subtrees.length).toBe(2);
 });
 
-it("getTextContent", () => {
-    const ast = scrape.parseString(
-        '<html><div id="y">abc <span>def</span></div></html>',
-    );
-    const element = scrape.getSubtree(
-        ast,
-        (e) => scrape.getAttr(e, "id") === "y",
-    );
-    if (!element) {
-        throw new Error();
-    }
-    const text = scrape.getTextContent(element);
-    expect(text).toBe("abc def");
-});
+const tcTests = [
+    {
+        in: '<html><div id="y">abc <span>def</span></div></html>',
+        out: "abc def",
+    },
+    {
+        in: '<html><div id="y">abc<br>def</span></div></html>',
+        out: "abc def",
+    },
+    {
+        in: '<html><div id="y"><style>dd {fill:green}</style>abc <span>def</span></div></html>',
+        out: "abc def",
+    },
+    { in: '<html><div id="y"><!-- this is a test --></div></html>', out: "" },
+];
 
-it("getTextContent - ignore style", () => {
-    const ast = scrape.parseString(
-        '<html><div id="y"><style>dd {fill:green}</style>abc <span>def</span></div></html>',
-    );
-    const element = scrape.getSubtree(
-        ast,
-        (e) => scrape.getAttr(e, "id") === "y",
-    );
-    if (!element) {
-        throw new Error();
+describe("getTextContent", () => {
+    for (const test of tcTests) {
+        it(test.in, () => {
+            const ast = scrape.parseString(test.in);
+            const element = scrape.getSubtree(
+                ast,
+                (e) => scrape.getAttr(e, "id") === "y",
+            );
+            if (!element) {
+                throw new Error();
+            }
+            const text = scrape.getTextContent(element);
+            expect(text).toBe(test.out);
+        });
     }
-    const text = scrape.getTextContent(element);
-    expect(text).toBe("abc def");
-});
-
-it("getTextContent for comment", () => {
-    const ast = scrape.parseString(
-        '<html><div id="y"><!-- this is a test --></div></html>',
-    );
-    const element = scrape.getSubtree(
-        ast,
-        (e) => scrape.getAttr(e, "id") === "y",
-    );
-    if (!element) {
-        throw new Error();
-    }
-    const text = scrape.getTextContent(element);
-    expect(text).toBe("");
 });
 
 it("getAttr", () => {
